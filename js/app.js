@@ -58,7 +58,7 @@ $('#getForecastBtn').click(() => {
             console.log(listOfDates);
             listOfTemp = data.list.map(ele => Math.round(ele.main.temp - 270));
             console.log(listOfTemp);
-            plotChart(listOfTemp, listOfDates);
+            
         },
         error: (err) => {
             console.log('In error callback');
@@ -73,11 +73,11 @@ $('#getForecastBtn').click(() => {
             console.log('In success callback');
             console.log(data);
 
-            listOfDatess = data.list.map((ele) => moment(ele.dt * 1000).format('dddd, h:mm a'));
+            // listOfDatess = data.list.map((ele) => moment(ele.dt * 1000).format('dddd, h:mm a'));
             console.log(listOfDates);
             listOfTemps = data.list.map(ele => Math.round(ele.main.temp - 270));
             console.log(listOfTemp);
-            plotCharts(listOfTemps, listOfDatess);
+            plotChart(listOfTemp, listOfDates,listOfTemps);
         },
         error: (err) => {
             console.log('In error callback');
@@ -85,7 +85,7 @@ $('#getForecastBtn').click(() => {
         }
     });
 
-    const plotChart = (tempArr, datesArr) => {
+    const plotChart = (tempArr, datesArr,tempArr1) => {
         $('#chart-container').show();
         Highcharts.chart('chart-container', {
             chart: {
@@ -124,53 +124,19 @@ $('#getForecastBtn').click(() => {
                     symbol: 'square'
                 },
                 data: tempArr
+            },
+            {
+            name: cityNames,
+            marker: {
+                symbol: 'square'
+            },
+            data: tempArr1
+
 
             }]
         });
     }
 
-    const plotCharts = (tempArr, datesArr) => {
-        $('#chart-containers').show();
-        Highcharts.chart('chart-containers', {
-            chart: {
-                type: 'spline'
-            },
-            title: {
-                text: 'Monthly Average Temperature'
-            },
-            xAxis: {
-                categories: datesArr
-            },
-            yAxis: {
-                title: {
-                    text: 'Temperature'
-                },
-                labels: {
-                    formatter: function () { return this.value + '°'; }
-                }
-            },
-            tooltip: {
-                crosshairs: true,
-                shared: true
-            },
-            plotOptions: {
-                spline: {
-                    marker: {
-                        radius: 4,
-                        lineColor: '#666666',
-                        lineWidth: 1
-                    }
-                }
-            },
-            series: [{
-                name: cityNames,
-                marker: {
-                    symbol: 'square'
-                },
-                data: tempArr
-
-            }]
-        });
-    }
+   
 
 })
