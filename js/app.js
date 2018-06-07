@@ -1,17 +1,16 @@
 $('#getWeatherBtn').click(() => {
     $('#chart-container').hide();
-    console.log('Button clicked');
     const cityName = $('#cityInput').val();
     $.ajax({
         type: 'GET',
         url: `http://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=27d43832d2a4adcb97fcbfa23db130aa`,
         success: (data) => {
-            console.log('In success callback');
-            console.log(data);
             const currentTemp = Math.round(data.main.temp - 270);
             const currentPressure = data.main.pressure;
             const humidity = data.main.humidity;
             $('#currentTemperature').html(currentTemp);
+            $('#currentPressure').html(currentPressure);
+            $('#currrentHumidity').html(humidity);
             $('table').show();
         },
         error: (err) => {
@@ -24,9 +23,6 @@ $('#getWeatherBtn').click(() => {
 $('#getForecastBtn').click(() => {
     $('table').hide();
     const cityName = $('#cityInput').val();
-    // Hit the API
-    // On Success, parse the forecast information from the response
-    // and update the options in the chart
     $.ajax({
         type: 'GET',
         url: `http://api.openweathermap.org/data/2.5/forecast?q=${cityName}&appid=133b42fff699f45866056ed2e4a093db`,
